@@ -39,23 +39,38 @@ bool getPrix(){
 };
 class Oeuvre{
 private:
-const Auteur &aut;	
+const Auteur aut;	
 	public:
 string title;
 string language;
 string author;
 
 Oeuvre(string title, Auteur aut, string language)
-	:title(title), aut(aut),  language(language)
-	
-{ cout <<title<<" "<<aut.getNom()<<"ho  "<<language; }
+	:aut(aut),  title(title),  language(language)
+	{ }
 string getTitre() const { return title; }
 const string getAuteur(){ return aut.getNom(); }
 string getLangue(){ return language;}
+~Oeuvre(){cout<<"L’oeuvre \""<<getTitre()<<", "<<getAuteur()<<", en "<<getLangue()<<"\""<<" n’est plus disponible."<<endl;}
 
-void affiche(){ cout<<"Author is "<<getAuteur();}
+void affiche(){ cout<<getTitre()<<", "<<getAuteur()<<", en "<<getLangue()<<endl;}
 	};
-class Exemplaire{};
+class Exemplaire{
+private:
+Oeuvre ouv;
+public:
+Exemplaire(Oeuvre o)
+:ouv(o)  
+{cout<<"Nouvel exemplaire de : "<<ouv.getTitre()<<", "<<ouv.getAuteur()<<", en "<<ouv.getLangue()<<endl;}
+Exemplaire(Exemplaire const &p)
+:ouv(p.ouv)
+{ cout<<"Copie d’un exemplaire de : "<<ouv.getTitre()<<", "<<ouv.getAuteur()<<",en "<<ouv.getLangue()<<endl;}
+~Exemplaire(){ cout<<"Un exemplaire de "<<ouv.getTitre()<<", "<<ouv.getAuteur()<<", en "<<ouv.getLangue()<<"a été jeté !"<<endl;}
+const Oeuvre getOeuvre(){return ouv;}	
+
+void affiche(){ //cout<<"Exemplaire de : "<<getTitre()<<", "<<getAuteur()<<", en "<<getLangue();
+	}
+};
 class Bibliotheque{};
 
 
@@ -70,6 +85,8 @@ int main()
 	 Auteur a1("Victor Hugo");
 	 Oeuvre o1("Les Misérables" , a1, "français" );
 	 o1.affiche();
+	 Exemplaire e1(o1);
+	 Exemplaire e2(e1);
 /*	
   Auteur a1("Victor Hugo"),
          a2("Alexandre Dumas"),
